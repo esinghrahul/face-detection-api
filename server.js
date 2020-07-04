@@ -8,7 +8,7 @@ const signIn = require('./controllers/signin')
 const profile = require('./controllers/profile')
 const image= require('./controllers/image')
 
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 /*
 const db = knex({
         client: 'pg',
@@ -21,7 +21,10 @@ const db = knex({
 
 const db = knex({
   client: 'pg',
-  connection: process.env.POSTGRES_URI
+  connection: {
+    connectString: process.env.DATABASE_URI,
+    ssl: true
+  }
 });
 
 const app = express()
@@ -43,6 +46,6 @@ app.put('/image', (req, res)=> {image.handleImage(req, res, db)})
 
 app.post('/imageUrl', (req, res)=> {image.handleApiCall(req, res)})
 
-app.listen(process.env.PORT || 3000, ()=> {
+app.listen(process.env.PORT || 4000, ()=> {
     console.log(`app is running on port ${process.env.PORT}`)
 })
